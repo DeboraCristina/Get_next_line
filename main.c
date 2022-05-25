@@ -7,12 +7,17 @@ int	main(void)
 {
 	char	*line;
 	int		fileDescriptor;
-	// int		timeout;
+	int		timeout;
 
-	// timeout = 5;
-	fileDescriptor = open("littletest", O_RDONLY);
-	line = get_next_line(fileDescriptor);
-	free(line);
+	timeout = 310;
+	line = "a";
+	fileDescriptor = open("get_next_line.h", O_RDONLY);
+	while (line && timeout)
+		{
+		line = get_next_line(fileDescriptor);
+		free(line);
+		timeout--;
+	}
 	close(fileDescriptor);
 	return (0);
 }
