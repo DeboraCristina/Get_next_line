@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/25 14:23:17 by desilva           #+#    #+#             */
+/*   Updated: 2022/05/25 14:23:52 by desilva          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "debug.h"
 #include "get_next_line.h"
 
@@ -31,7 +43,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (!l)
 		return ((char *) s + i);
-	return (0);
+	return (NULL);
 }
 
 // Function 03
@@ -46,18 +58,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	if (s1)
 	{
-		printf("AKI1\n");
 		while (*s1)
 			sj[count++] = *s1++;
-		printf("AKI2\n");
-		free((void *) s1);
+		// free((void *) s1);
 	}
 	if (s2)
 	{
-		printf("AKI3\n");
 		while (*s2)
 			sj[count++] = *s2++;
-		printf("AKI4\n");
 		// free((void *) s2);
 	}
 	sj[count] = 0;
