@@ -10,26 +10,26 @@
 // Function 03 --> read file
 char	*ft_read_file(int fd)
 {
-	char	buffer[BUFFER_SIZE];
+	char	*buffer;
 	char	*text;
-	size_t	size;
-	int timeout = 15;
+	int		size;
+	char	*temp;
 
 	text = NULL;
-	size = 0;
+	buffer = (char *) malloc(BUFFER_SIZE + 1);
 	while (!ft_strchr(buffer, '\n'))
 	{
 		size = read(fd, buffer, BUFFER_SIZE);
+		if (size <= 0)
+			break ;
 		buffer[size] = '\0';
-		printf("SIZE - %zu ++ buff - %s\n", size, buffer);
-		if (!size)
-			return (NULL);
-		text = ft_strjoin(text, buffer);
-		printf("text - %s\n", text);
-		timeout--;
-		printf("AKI\n");
+		temp = text;
+		text = ft_strjoin(temp, buffer);
+		free(temp);
+		temp = NULL;
 	}
-	return (NULL);
+	free(buffer);
+	return (text);
 }
 
 // Function 04 --> complete line
@@ -40,17 +40,19 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*content;
-	//static char	residue[BUFFER_SIZE];
+	//static char	residue[BUFFER_SIZE + 1];
 
 	// line receives residue
 	line = NULL;
 
 	//	read file - put it in content
 	content = ft_read_file(fd);
+	printf("content - \n%s", content);
 
 	//	complete line
 
 	//	update residue
 
-	return (line);
+	// return (line);
+	return (content);
 }
