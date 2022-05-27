@@ -3,7 +3,7 @@
 
 #include <fcntl.h>
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	char	*line;
 	int		fileDescriptor;
@@ -13,7 +13,12 @@ int	main(void)
 	char	*file;
 
 	line = "a";
-	test = 1; // 1 - 4
+	if (argc < 2)
+	{
+		dprint("no arg", 1);
+		return (0);
+	}
+	test = atoi(argv[1]); // 1 - 4
 
 	switch (test)
 	{
