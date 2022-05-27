@@ -3,7 +3,7 @@
 
 #include <fcntl.h>
 
-int	main(int argc, char **argv)
+void	gnl(int n)
 {
 	char	*line;
 	int		fileDescriptor;
@@ -13,12 +13,7 @@ int	main(int argc, char **argv)
 	char	*file;
 
 	line = "a";
-	if (argc < 2)
-	{
-		dprint("no arg", 1);
-		return (0);
-	}
-	test = atoi(argv[1]); // 1 - 4
+	test = n; // 1 - 4
 
 	switch (test)
 	{
@@ -57,5 +52,24 @@ int	main(int argc, char **argv)
 	if (!timeout)
 		dprint("+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*\nTIMEOUT\n+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*", YELLOW);
 	close(fileDescriptor);
+}
+
+void	test()
+{
+	char	*t;
+
+	t = NULL;
+	free(t);
+}
+
+int	main(int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		dprint("no arg", 1);
+		return (0);
+	}
+	gnl(atoi(argv[1]));
+	test();
 	return (0);
 }
