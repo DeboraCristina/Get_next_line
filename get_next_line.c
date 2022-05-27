@@ -10,11 +10,11 @@ void	ft_update_residue(char *content, char *dest)
 	int	index_content;
 	int	index_destiny;
 
+	index_destiny = 0;
 	if (content)
 	{
 		index_content = 0;
 		len_content = (int) ft_strlen(content);
-		index_destiny = 0;
 		while (content[index_content] && content[index_content] != '\n') // index_content == \n ou \0
 			index_content++;
 		index_content++;
@@ -28,7 +28,8 @@ void	ft_update_residue(char *content, char *dest)
 			dest[index_destiny] = '\0';
 	}
 	else
-		dest[0] = -1;
+		while (index_destiny < BUFFER_SIZE + 1)
+			dest[index_destiny++] = '\0';
 }
 
 // Function 03 --> read file
@@ -40,7 +41,6 @@ char	*ft_read_file(int fd)
 	char	*temp;
 
 	text = NULL;
-	// buffer = (char *) malloc(BUFFER_SIZE + 1);
 	while (!ft_strchr(buffer, '\n'))
 	{
 		size = read(fd, buffer, BUFFER_SIZE);
@@ -55,7 +55,6 @@ char	*ft_read_file(int fd)
 		temp = NULL;
 	}
 	// dprint("free 02", 2);
-	// free(buffer);
 	return (text);
 }
 
@@ -69,7 +68,11 @@ char	*ft_complete_line(char *oldline, char *content)
 	if (!content && !oldline)
 		return (NULL);
 	else if (!content)
+	{
+		if (ft_strlen(oldline) > 0)
+			return (oldline);
 		return (NULL);
+	}
 	i = 0;
 	while (content[i] && content[i] != '\n')
 		i++;
@@ -89,25 +92,27 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*content;
 	static char	residue[BUFFER_SIZE + 1];
+	//static int	endfile;
 
-	if (fd < 0 || BUFFER_SIZE < 1) // line receives residue
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	line = NULL;
 	line = ft_complete_line(line, residue);
-
-	//	read file - put it in content
-	if (!line)
+	if (!ft_strchr(line, '\n'))
+	{
 		content = ft_read_file(fd);
+		line = ft_complete_line(line, content);
+	}
 	else
 	{
 		content = (char *) malloc(BUFFER_SIZE + 1);
 		ft_strlcpy(content, residue, BUFFER_SIZE + 1);
 	}
-	line = ft_complete_line(line, content);
 	ft_update_residue(content, residue);
-
-	// dprint("free 04", 2);
 	if (content)
+	{
+		// dprint("free 04", 2);
 		free(content);
+	}
 	return (line);
 }
