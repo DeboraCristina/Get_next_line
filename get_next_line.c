@@ -3,7 +3,6 @@
 
 // Function 01
 
-
 // Function 02 --> update residue
 void	ft_update_residue(char *content, char *dest)
 {

@@ -30,7 +30,7 @@ int	main(void)
 		timeout--;
 	}
 	if (!timeout)
-		dprint("TIMEOUT", YELLOW);
+		dprint("+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*\nTIMEOUT\n+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*", YELLOW);
 	close(fileDescriptor);
 	return (0);
 }

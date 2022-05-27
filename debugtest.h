@@ -14,6 +14,5 @@ typedef enum{
 }	t_color;
 
 void	dprint(const char *str, int color);
-void	dsprint(const char *s1, const char *s2, int color);
 
 #endif
