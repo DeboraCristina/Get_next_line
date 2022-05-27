@@ -6,11 +6,10 @@
 /*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:23:17 by desilva           #+#    #+#             */
-/*   Updated: 2022/05/25 14:23:52 by desilva          ###   ########.fr       */
+/*   Updated: 2022/05/27 03:22:06 by desilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "debug.h"
 #include "get_next_line.h"
 
 // Function 01
@@ -73,4 +72,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 
 // Function 04
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	index;
+
+	index = 0;
+	if (!dst || !src)
+		return (0);
+	if (size)
+	{
+		while (src[index] && index < size - 1)
+		{
+			dst[index] = src[index];
+			index++;
+		}
+		dst[index] = 0;
+	}
+	while (src[index])
+		index++;
+	return (index);
+}
+
 // Function 05
