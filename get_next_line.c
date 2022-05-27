@@ -49,12 +49,11 @@ char	*ft_read_file(int fd)
 		buffer[size] = '\0';
 		temp = text;
 		text = ft_strjoin(temp, buffer);
-		// dprint("free 01", 2);
-		// dprint(temp, 0);
+		if (!text)
+			return (NULL);
 		free(temp);
 		temp = NULL;
 	}
-	// dprint("free 02", 2);
 	return (text);
 }
 
@@ -77,11 +76,14 @@ char	*ft_complete_line(char *oldline, char *content)
 	while (content[i] && content[i] != '\n')
 		i++;
 	cont_line = (char *) malloc(i + 1);
+	if (!cont_line )
+		return (NULL);
 	ft_strlcpy(cont_line , content, i + 2);
 	if (!oldline)
 		return (cont_line);
 	newline = ft_strjoin(oldline, cont_line);
-	// dprint("free 03", 2);
+	if (!newline )
+		return (NULL);
 	free(cont_line);
 	return (newline);
 }
@@ -91,17 +93,22 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*content;
+	char		*freeline;
 	static char	residue[BUFFER_SIZE + 1];
-	//static int	endfile;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	line = NULL;
 	line = ft_complete_line(line, residue);
+	freeline = line;
 	if (!ft_strchr(line, '\n'))
 	{
 		content = ft_read_file(fd);
 		line = ft_complete_line(line, content);
+		free(freeline);
+		if (!line)
+			return (NULL);
+		freeline = NULL;
 	}
 	else
 	{
@@ -109,10 +116,9 @@ char	*get_next_line(int fd)
 		ft_strlcpy(content, residue, BUFFER_SIZE + 1);
 	}
 	ft_update_residue(content, residue);
+	if (!content)
+		return (NULL);
 	if (content)
-	{
-		// dprint("free 04", 2);
 		free(content);
-	}
 	return (line);
 }
