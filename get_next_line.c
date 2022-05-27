@@ -27,18 +27,20 @@ void	ft_update_residue(char *content, char *dest)
 		if (dest[index_destiny] != '\0')
 			dest[index_destiny] = '\0';
 	}
+	else
+		dest[0] = -1;
 }
 
 // Function 03 --> read file
 char	*ft_read_file(int fd)
 {
-	char	*buffer;
+	char	buffer[BUFFER_SIZE + 1];
 	char	*text;
 	int		size;
 	char	*temp;
 
 	text = NULL;
-	buffer = (char *) malloc(BUFFER_SIZE + 1);
+	// buffer = (char *) malloc(BUFFER_SIZE + 1);
 	while (!ft_strchr(buffer, '\n'))
 	{
 		size = read(fd, buffer, BUFFER_SIZE);
@@ -47,41 +49,37 @@ char	*ft_read_file(int fd)
 		buffer[size] = '\0';
 		temp = text;
 		text = ft_strjoin(temp, buffer);
+		// dprint("free 01", 2);
+		// dprint(temp, 0);
 		free(temp);
 		temp = NULL;
 	}
-	free(buffer);
+	// dprint("free 02", 2);
+	// free(buffer);
 	return (text);
 }
 
 // Function 04 --> complete line
 char	*ft_complete_line(char *oldline, char *content)
 {
-	char	*newline;
 	int		i;
-	size_t	linelen;
+	char	*newline;
+	char	*cont_line;
 
-	if (!content)
-		return (oldline);
+	if (!content && !oldline)
+		return (NULL);
+	else if (!content)
+		return (NULL);
 	i = 0;
-	linelen = ft_strlen(oldline);
 	while (content[i] && content[i] != '\n')
 		i++;
-	newline = (char *) malloc(sizeof(char) * linelen + i + 1);
-	if (!newline)
-		return (NULL);
-	newline[i + 1] = '\0';
-	while (oldline && linelen)
-	{
-		dprint("aki", RED);
-		newline[linelen] = oldline[linelen];
-		linelen--;
-	}
-	while (i >= 0)
-	{
-		newline[i] = content[i];
-		i--;
-	}
+	cont_line = (char *) malloc(i + 1);
+	ft_strlcpy(cont_line , content, i + 2);
+	if (!oldline)
+		return (cont_line);
+	newline = ft_strjoin(oldline, cont_line);
+	// dprint("free 03", 2);
+	free(cont_line);
 	return (newline);
 }
 
@@ -92,22 +90,24 @@ char	*get_next_line(int fd)
 	char		*content;
 	static char	residue[BUFFER_SIZE + 1];
 
-	// line receives residue
+	if (fd < 0 || BUFFER_SIZE < 1) // line receives residue
+		return (NULL);
 	line = NULL;
 	line = ft_complete_line(line, residue);
-	dprint(line, YELLOW);
-	dprint("====================\n", RED);
 
 	//	read file - put it in content
-	content = ft_read_file(fd);
-
-	//	complete line
+	if (!line)
+		content = ft_read_file(fd);
+	else
+	{
+		content = (char *) malloc(BUFFER_SIZE + 1);
+		ft_strlcpy(content, residue, BUFFER_SIZE + 1);
+	}
 	line = ft_complete_line(line, content);
-	dprint(line, WHITE);
-	dprint("====================\n", RED);
-
-	//	update residue
 	ft_update_residue(content, residue);
 
+	// dprint("free 04", 2);
+	if (content)
+		free(content);
 	return (line);
 }
