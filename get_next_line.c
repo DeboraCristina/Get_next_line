@@ -51,7 +51,8 @@ char	*ft_read_file(int fd)
 		text = ft_strjoin(temp, buffer);
 		if (!text)
 			return (NULL);
-		free(temp);
+		//if (temp)
+			//free(temp);
 		temp = NULL;
 	}
 	return (text);
@@ -105,7 +106,8 @@ char	*get_next_line(int fd)
 	{
 		content = ft_read_file(fd);
 		line = ft_complete_line(line, content);
-		free(freeline);
+		if (freeline)
+			free(freeline);
 		if (!line)
 			return (NULL);
 		freeline = NULL;
