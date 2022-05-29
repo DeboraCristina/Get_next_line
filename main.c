@@ -46,7 +46,7 @@ void	gnl(int n)
 			printf("%s", line);
 		else
 			dprint("NULL", PURPLE);
-		free(line);
+		//free(line);
 		timeout--;
 	}
 	if (!timeout)
