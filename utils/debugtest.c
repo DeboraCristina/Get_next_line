@@ -6,5 +6,5 @@ void	dprint(const char *str, int color)
 
 	printf("%s", str);// str
 
-	printf("\033[0m");
+	printf("\033[0m\n");
 }
