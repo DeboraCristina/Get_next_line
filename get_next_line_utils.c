@@ -59,13 +59,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	{
 		while (*s1)
 			sj[count++] = *s1++;
-		// free((void *) s1);
 	}
 	if (s2)
 	{
 		while (*s2)
 			sj[count++] = *s2++;
-		// free((void *) s2);
 	}
 	sj[count] = 0;
 	return (sj);
@@ -94,3 +92,13 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 }
 
 // Function 05
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
+	size_t	c;
+
+	str = (char *) s;
+	c = 0;
+	while (c++ < n)
+		*str++ = '\0';
+}

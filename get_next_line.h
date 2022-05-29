@@ -6,7 +6,7 @@
 /*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:16:57 by desilva           #+#    #+#             */
-/*   Updated: 2022/05/27 07:40:16 by desilva          ###   ########.fr       */
+/*   Updated: 2022/05/29 16:37:48 by desilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+
+void	ft_bzero(void *s, size_t n);
 
 #endif
