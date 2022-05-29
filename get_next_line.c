@@ -41,6 +41,7 @@ char	*ft_read_file(int fd)
 	char	*temp;
 
 	text = NULL;
+	ft_bzero(buffer, BUFFER_SIZE + 1);
 	while (!ft_strchr(buffer, '\n'))
 	{
 		size = read(fd, buffer, BUFFER_SIZE);
@@ -76,16 +77,18 @@ char	*ft_complete_line(char *oldline, char *content)
 	i = 0;
 	while (content[i] && content[i] != '\n')
 		i++;
-	cont_line = (char *) malloc(i + 1);
+	if (content[i] == '\n')
+		i++;
+	cont_line = (char *) malloc(i + 1); // 1
 	if (!cont_line )
 		return (NULL);
-	ft_strlcpy(cont_line , content, i + 2);
+	ft_strlcpy(cont_line , content, i + 1);//0
 	if (!oldline)
 		return (cont_line);
 	newline = ft_strjoin(oldline, cont_line);
+	free(cont_line);
 	if (!newline )
 		return (NULL);
-	free(cont_line);
 	return (newline);
 }
 
@@ -100,7 +103,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	line = NULL;
-	line = ft_complete_line(line, residue);
+	line = ft_complete_line(line, residue); //null
 	freeline = line;
 	if (!ft_strchr(line, '\n'))
 	{
