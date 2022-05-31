@@ -18,6 +18,17 @@ if [ -z $4 ]
 then
 	echo hide
 else
-	$run
+	if [ "$4" = "-s" ]
+	then
+		$run
+	else
+		if [ "$4" = "-v" ]
+		then
+			run="valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./a.out $1 $3 ; rm ./a.out "
+			$run
+		fi
+	fi
 fi
 
+#
+#if [ "$1" = "-bi" ]
