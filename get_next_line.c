@@ -1,6 +1,16 @@
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/31 05:24:24 by desilva           #+#    #+#             */
+/*   Updated: 2022/05/31 05:25:53 by desilva          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*reduce lines in complete_line and gnl*/
+#include "get_next_line.h"
 
 void	ft_update_residue(char *content, char *dest)
 {
@@ -44,8 +54,7 @@ char	*ft_read_file(int fd)
 		buffer[size] = '\0';
 		temp = text;
 		text = ft_strjoin(temp, buffer);
-		if (temp)
-			free(temp);
+		free(temp);
 		if (!text)
 			return (NULL);
 		temp = NULL;
@@ -59,31 +68,28 @@ char	*ft_complete_line(char *oldline, char *content)
 	char	*newline;
 	char	*cont_line;
 
-	if (!content && !oldline)
+	i = 0;
+	if (!content && !ft_strlen(oldline))
 		return (NULL);
-	else if (!content)
-	{
-		if (ft_strlen(oldline) > 0)
-			return (oldline);
+	if (!content)
+		return (oldline);
+	while (content[i] && content[i] != '\n')
+		i++;
+	if (content[i] == '\n')
+		i++;
+	cont_line = (char *) malloc(i + 1);
+	if (!cont_line)
 		return (NULL);
-	}
+	ft_strlcpy(cont_line, content, i + 1);
+	if (!ft_strlen(oldline))
+		return (cont_line);
 	newline = ft_strjoin(oldline, cont_line);
 	free(cont_line);
 	if (!newline)
 		return (NULL);
 	return (newline);
 }
-/*
-	i = 0;
-	while (content[i] && content[i] != '\n')
-		i++;
-	if (content[i] == '\n')
-		i++;
-	cont_line = (char *) malloc(i + 1);
-	ft_strlcpy(cont_line, content, i + 1);
-	if (!cont_line)
-		return (NULL);
-*/
+
 char	*get_next_line(int fd)
 {
 	char		*line;
@@ -100,11 +106,8 @@ char	*get_next_line(int fd)
 	{
 		content = ft_read_file(fd);
 		line = ft_complete_line(line, content);
-		if (freeline)
+		if (freeline != line)
 			free(freeline);
-		if (!line)
-			return (NULL);
-		freeline = NULL;
 	}
 	else
 	{
@@ -112,9 +115,6 @@ char	*get_next_line(int fd)
 		ft_strlcpy(content, residue, BUFFER_SIZE + 1);
 	}
 	ft_update_residue(content, residue);
-	if (!content)
-		return (NULL);
-	if (content)
-		free(content);
+	free(content);
 	return (line);
 }
