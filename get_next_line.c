@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 05:24:24 by desilva           #+#    #+#             */
-/*   Updated: 2022/05/31 05:25:53 by desilva          ###   ########.fr       */
+/*   Created: 2022/05/31 19:23:26 by desilva           #+#    #+#             */
+/*   Updated: 2022/05/31 19:55:35 by desilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,35 @@ void	ft_update_residue(char *content, char *dest)
 {
 	int	len_content;
 	int	index_content;
-	int	index_destiny;
 
-	ft_bzero(dest, BUFFER_SIZE + 1);
 	if (content)
 	{
-		index_destiny = 0;
 		index_content = 0;
 		len_content = (int) ft_strlen(content);
 		while (content[index_content] && content[index_content] != '\n')
 			index_content++;
 		if (content[index_content] == '\n')
 			index_content++;
-		while (content[index_content] && index_content <= len_content)
-		{
-			dest[index_destiny] = content[index_content];
-			index_destiny++;
-			index_content++;
-		}
+		if (BUFFER_SIZE > index_content)
+			ft_bzero(dest, index_content);
+		else
+			ft_bzero(dest, BUFFER_SIZE + 1);
+		ft_strlcpy(dest, content + index_content, len_content);
 	}
+	else
+		dest[0] = '\0';
 }
 
 char	*ft_read_file(int fd)
 {
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	char	*text;
 	int		size;
 	char	*temp;
 
 	text = NULL;
-	ft_bzero(buffer, BUFFER_SIZE + 1);
+	buffer = (char *) malloc(BUFFER_SIZE + 1);
+	buffer[0] = '\0';
 	while (!ft_strchr(buffer, '\n'))
 	{
 		size = read(fd, buffer, BUFFER_SIZE);
@@ -56,9 +55,12 @@ char	*ft_read_file(int fd)
 		text = ft_strjoin(temp, buffer);
 		free(temp);
 		if (!text)
+		{
+			free(buffer);
 			return (NULL);
-		temp = NULL;
+		}
 	}
+	free(buffer);
 	return (text);
 }
 
