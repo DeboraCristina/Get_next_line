@@ -6,7 +6,7 @@
 /*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:23:17 by desilva           #+#    #+#             */
-/*   Updated: 2022/05/27 07:40:14 by desilva          ###   ########.fr       */
+/*   Updated: 2022/05/30 21:54:37 by desilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,25 @@ char	*ft_strchr(const char *s, int c)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*sj;
+	int		lens1;
+	int		lens2;
 	int		count;
 
-	sj = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	lens1 = ft_strlen((char *) s1);
+	lens2 = ft_strlen((char *) s2);
+	sj = (char *) malloc(lens1 + lens2 + 1);
 	count = 0;
 	if (!sj)
 		return (0);
-	if (s1)
+	while (s1 && *s1)
 	{
-		while (*s1)
-			sj[count++] = *s1++;
+		sj[count] = *s1++;
+		count++;
 	}
-	if (s2)
+	while (s2 && *s2)
 	{
-		while (*s2)
-			sj[count++] = *s2++;
+		sj[count] = *s2++;
+		count++;
 	}
 	sj[count] = 0;
 	return (sj);
