@@ -1,38 +1,32 @@
-# include "debugtest.h"
 #include "get_next_line.h"
 
-// Function 01
+/*reduce lines in complete_line and gnl*/
 
-// Function 02 --> update residue
 void	ft_update_residue(char *content, char *dest)
 {
 	int	len_content;
 	int	index_content;
 	int	index_destiny;
 
-	index_destiny = 0;
+	ft_bzero(dest, BUFFER_SIZE + 1);
 	if (content)
 	{
+		index_destiny = 0;
 		index_content = 0;
 		len_content = (int) ft_strlen(content);
-		while (content[index_content] && content[index_content] != '\n') // index_content == \n ou \0
+		while (content[index_content] && content[index_content] != '\n')
 			index_content++;
-		index_content++;
+		if (content[index_content] == '\n')
+			index_content++;
 		while (content[index_content] && index_content <= len_content)
 		{
 			dest[index_destiny] = content[index_content];
 			index_destiny++;
 			index_content++;
 		}
-		if (dest[index_destiny] != '\0')
-			dest[index_destiny] = '\0';
 	}
-	else
-		while (index_destiny < BUFFER_SIZE + 1)
-			dest[index_destiny++] = '\0';
 }
 
-// Function 03 --> read file
 char	*ft_read_file(int fd)
 {
 	char	buffer[BUFFER_SIZE + 1];
@@ -50,16 +44,15 @@ char	*ft_read_file(int fd)
 		buffer[size] = '\0';
 		temp = text;
 		text = ft_strjoin(temp, buffer);
+		if (temp)
+			free(temp);
 		if (!text)
 			return (NULL);
-		//if (temp)
-			//free(temp);
 		temp = NULL;
 	}
 	return (text);
 }
 
-// Function 04 --> complete line
 char	*ft_complete_line(char *oldline, char *content)
 {
 	int		i;
@@ -74,25 +67,23 @@ char	*ft_complete_line(char *oldline, char *content)
 			return (oldline);
 		return (NULL);
 	}
+	newline = ft_strjoin(oldline, cont_line);
+	free(cont_line);
+	if (!newline)
+		return (NULL);
+	return (newline);
+}
+/*
 	i = 0;
 	while (content[i] && content[i] != '\n')
 		i++;
 	if (content[i] == '\n')
 		i++;
-	cont_line = (char *) malloc(i + 1); // 1
-	if (!cont_line )
+	cont_line = (char *) malloc(i + 1);
+	ft_strlcpy(cont_line, content, i + 1);
+	if (!cont_line)
 		return (NULL);
-	ft_strlcpy(cont_line , content, i + 1);//0
-	if (!oldline)
-		return (cont_line);
-	newline = ft_strjoin(oldline, cont_line);
-	free(cont_line);
-	if (!newline )
-		return (NULL);
-	return (newline);
-}
-
-// Function 05
+*/
 char	*get_next_line(int fd)
 {
 	char		*line;
@@ -103,7 +94,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	line = NULL;
-	line = ft_complete_line(line, residue); //null
+	line = ft_complete_line(line, residue);
 	freeline = line;
 	if (!ft_strchr(line, '\n'))
 	{
