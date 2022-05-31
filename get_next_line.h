@@ -6,7 +6,7 @@
 /*   By: desilva <dede-2231@hotmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 22:16:57 by desilva           #+#    #+#             */
-/*   Updated: 2022/05/30 20:07:35 by desilva          ###   ########.fr       */
+/*   Updated: 2022/05/31 05:25:48 by desilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 char	*get_next_line(int fd);
 
-// === utils === //
 size_t	ft_strlen(const char *str);
 
 char	*ft_strchr(const char *s, int c);
